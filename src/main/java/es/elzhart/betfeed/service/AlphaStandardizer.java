@@ -2,6 +2,7 @@ package es.elzhart.betfeed.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import es.elzhart.betfeed.model.CommonEvent;
 import es.elzhart.betfeed.model.EventProvider;
@@ -13,6 +14,7 @@ import es.elzhart.betfeed.web.dto.alpha.AlphaOdds;
 import es.elzhart.betfeed.web.dto.alpha.AlphaOddsValues;
 import es.elzhart.betfeed.web.dto.alpha.AlphaSettlement;
 
+@Service("alphaStandardizer")
 public class AlphaStandardizer extends AbstractStandardizer<AlphaMsg> {
 
     private static final Logger log = LoggerFactory.getLogger(AlphaStandardizer.class);
