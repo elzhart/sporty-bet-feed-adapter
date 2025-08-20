@@ -1,4 +1,4 @@
-package es.elzhart.betfeed.dto.beta;
+package es.elzhart.betfeed.web.dto.beta;
 
 import jakarta.validation.constraints.NotNull;
 
