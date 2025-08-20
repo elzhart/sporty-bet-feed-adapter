@@ -1,0 +1,1 @@
+# sporty-bet-feed-adapter
