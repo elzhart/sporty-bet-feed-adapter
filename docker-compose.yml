@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  bet-feed:
+    build: .
+    image: bet-feed:local
+    container_name: bet-feed
+    ports:
+      - "8080:8080"
+    environment:
+      # Spring profile по желанию
+      SPRING_PROFILES_ACTIVE: "default"
+
+      LOGGING_LEVEL_ROOT: "INFO"
+      LOGGING_LEVEL_COM_EXAMPLE_BETFEED: "DEBUG"
+
+      JAVA_OPTS: "-Xms256m -Xmx512m"
+      TZ: "Europe/Madrid"
+    restart: unless-stopped

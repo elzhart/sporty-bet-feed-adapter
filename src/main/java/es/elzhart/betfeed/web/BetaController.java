@@ -32,6 +32,7 @@ public class BetaController {
 
     @PostMapping("/feed")
     public ResponseEntity<Void> feed(@Valid @RequestBody BetaMsg body) {
+        // TODO add idempotency
         log.info("BETA received: type='{}' event_id='{}'", body.type(), body.eventId());
         var normalized = std.standardize(body);
         log.info("BETA normalized: eventId='{}' eventType='{}'", normalized.eventId(), normalized.eventType());

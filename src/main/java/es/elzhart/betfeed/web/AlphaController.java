@@ -32,6 +32,7 @@ public class AlphaController {
 
     @PostMapping("/feed")
     public ResponseEntity<Void> feed(@Valid @RequestBody AlphaMsg body) {
+        // TODO add idempotency
         log.info("ALPHA received: type='{}' event_id='{}'", body.msgType(), body.eventId());
         var normalized = std.standardize(body);
         log.info("ALPHA normalized: eventId='{}' eventType='{}'", normalized.eventId(), normalized.eventType());

@@ -1,4 +1,4 @@
-package es.elzhart.betfeed.unit.alpha;
+package es.elzhart.betfeed.service;
 
 
 import org.junit.jupiter.api.Test;
@@ -7,7 +7,6 @@ import es.elzhart.betfeed.model.CommonEvent;
 import es.elzhart.betfeed.model.EventProvider;
 import es.elzhart.betfeed.model.EventType;
 import es.elzhart.betfeed.model.Result;
-import es.elzhart.betfeed.service.AlphaStandardizer;
 import es.elzhart.betfeed.web.dto.alpha.AlphaOdds;
 import es.elzhart.betfeed.web.dto.alpha.AlphaOddsValues;
 import es.elzhart.betfeed.web.dto.alpha.AlphaSettlement;
