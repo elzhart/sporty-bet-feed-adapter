@@ -1,5 +1,6 @@
 package es.elzhart.betfeed;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -7,15 +8,26 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import es.elzhart.betfeed.model.CommonEvent;
+import es.elzhart.betfeed.queue.InMemoryEventPublisher;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class RequestFeedIT {
+public class QueueEventPublishingIT {
     @Autowired
     MockMvc mockMvc;
+    @Autowired
+    InMemoryEventPublisher publisher;
+
+    @BeforeEach
+    void clearQueue() {
+        publisher.clear();
+    }
 
     @Test
     public void alpha_event_feed() throws Exception {
@@ -27,6 +39,11 @@ public class RequestFeedIT {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(body))
                 .andExpect(status().isAccepted());
+
+        assertThat(publisher.size()).isEqualTo(1);
+        CommonEvent e = publisher.snapshot().get(0);
+        assertThat(e.eventId()).isEqualTo("evQ1");
+        assertThat(e.odds().home()).isEqualTo(2.0);
     }
 
     @Test
@@ -39,5 +56,10 @@ public class RequestFeedIT {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(body))
                 .andExpect(status().isAccepted());
+
+        assertThat(publisher.size()).isEqualTo(1);
+        CommonEvent e = publisher.snapshot().get(0);
+        assertThat(e.eventId()).isEqualTo("evQ2");
+        assertThat(e.result().name()).isEqualTo("AWAY");
     }
 }

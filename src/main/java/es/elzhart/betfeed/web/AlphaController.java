@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import es.elzhart.betfeed.queue.EventPublisher;
 import es.elzhart.betfeed.service.Standardizer;
 import es.elzhart.betfeed.web.dto.alpha.AlphaMsg;
 import jakarta.validation.Valid;
@@ -19,9 +20,14 @@ public class AlphaController {
     private static final Logger log = LoggerFactory.getLogger(AlphaController.class);
 
     private final Standardizer<AlphaMsg> std;
+    private final EventPublisher eventPublisher;
 
-    public AlphaController(@Qualifier("alphaStandardizer") Standardizer<AlphaMsg> std) {
+    public AlphaController(
+            @Qualifier("alphaStandardizer") Standardizer<AlphaMsg> std,
+            @Qualifier("inMemoryPublisher")EventPublisher eventPublisher
+    ) {
         this.std = std;
+        this.eventPublisher = eventPublisher;
     }
 
     @PostMapping("/feed")
@@ -29,6 +35,7 @@ public class AlphaController {
         log.info("ALPHA received: type='{}' event_id='{}'", body.msgType(), body.eventId());
         var normalized = std.standardize(body);
         log.info("ALPHA normalized: eventId='{}' eventType='{}'", normalized.eventId(), normalized.eventType());
+        eventPublisher.publish(normalized);
         return ResponseEntity.accepted().build();
     }
 }
