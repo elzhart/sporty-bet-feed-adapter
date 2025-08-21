@@ -135,7 +135,7 @@ Requirements: **Java 17+**
 
 # build fat-jar
 ./gradlew clean bootJar
-java -jar build/libs/bet-feed-0.0.1-SNAPSHOT.jar
+java -jar build/libs/sporty-bet-feed-adapter-0.0.1-SNAPSHOT.jar
 ```
 
 Quick checks:
